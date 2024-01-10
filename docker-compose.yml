@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  articles-bdd:   
+    build: ./articles-db
+    image: a-bdd
+    container_name: mysql-bdd-articles
+    networks:
+      - articles-network
+    volumes:
+      - articles-bdd-data:/var/lib/mysql
+  voyages-app:
+    build: ./articles-back
+    image: a-app
+    container_name: articles-app
+    depends_on:
+      - articles-bdd
+    ports:
+      - "9000:8080"
+    networks:
+      - articles-network
+networks:
+  articles-network:
+volumes:
+  articles-bdd-data:
